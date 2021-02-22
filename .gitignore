@@ -1,0 +1,9 @@
+node_modules/
+.env
+package-lock.json
+coverage/
+newrelic_agent.log
+dist/
+*.sqlite3
+*.log
+*.tsbuildinfo
