@@ -140,7 +140,7 @@ export default class Cache {
 
       const redisPromise = (redisInstance.get(key) as Bluebird<string>).timeout(
         this.requestTimeout,
-        "ERR_TIMEOUT_GET"
+        "ERR_TIMEOUT"
       );
 
       const data = await redisPromise;
@@ -172,7 +172,7 @@ export default class Cache {
         encodedData,
         "EX",
         secondsToExpire
-      ) as Bluebird<"OK">).timeout(this.requestTimeout, "ERR_TIMEOUT_SET");
+      ) as Bluebird<"OK">).timeout(this.requestTimeout, "ERR_TIMEOUT");
 
       return redisPromise;
     } catch (error) {
@@ -190,7 +190,7 @@ export default class Cache {
 
       const redisPromise = (redisInstance.del(key) as Bluebird<number>).timeout(
         this.requestTimeout,
-        "ERR_TIMEOUT_DEL"
+        "ERR_TIMEOUT"
       );
 
       return redisPromise;
@@ -200,7 +200,7 @@ export default class Cache {
   }
 
   private static handleError(error) {
-    if (error != "ERR_TIMEOUT") {
+    if (error.message !== "ERR_TIMEOUT") {
       this.redisInstance = null;
     }
     return null;

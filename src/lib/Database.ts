@@ -19,7 +19,9 @@ export default class Database {
 
   static getConnection(): Knex {
     if (!this.connection) {
-      this.connection = Knex(this.config);
+      const connection = Knex(this.config);
+      connection.on("query", () => console.log("BANCO"));
+      this.connection = connection;
     }
 
     return this.connection;
